@@ -1,0 +1,30 @@
+# Bản mô tả cho AI Coding Platform.
+#
+# File này là thứ DUY NHẤT platform cần để làm việc với repo này: nó nói chạy trong ảnh nào,
+# build và test bằng lệnh gì, và chỗ nào agent không được đụng vào. Không có file này thì task
+# dừng ngay ở bước đọc manifest, trước cả khi gọi model.
+
+version: 1
+
+runtime:
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  workdir: /workspace
+
+commands:
+  setup: dotnet restore tests/Demo.Tests/Demo.Tests.csproj
+  build: dotnet build tests/Demo.Tests/Demo.Tests.csproj --no-restore
+  # Bắt buộc xuất JUnit XML: đó là định dạng bước kiểm chứng đọc được. Repo dùng hệ sinh thái
+  # khác phải tự quy đổi sang định dạng này ngay trong lệnh test.
+  test: dotnet test tests/Demo.Tests/Demo.Tests.csproj --no-build --logger "junit;LogFilePath=/workspace/test-results/results.xml"
+
+limits:
+  setup_timeout_seconds: 900
+  build_timeout_seconds: 900
+  test_timeout_seconds: 900
+
+context:
+  docs:
+    - README.md
+  protected_paths:
+    - .agent/**
+    - .github/**
