@@ -21,3 +21,11 @@ def slugify(value: str) -> str:
     ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
 
     return re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")
+
+
+def word_count(value: str) -> int:
+    """Đếm số từ trong chuỗi, coi mọi khoảng trắng liên tiếp là một dấu phân cách."""
+    if value is None:
+        raise ValueError("value khong duoc None")
+
+    return len(value.split())
