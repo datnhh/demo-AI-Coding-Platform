@@ -1,3 +1,3 @@
-from .strings import reverse, slugify
+from .strings import reverse, slugify, title_case
 
-__all__ = ["reverse", "slugify"]
+__all__ = ["reverse", "slugify", "title_case"]

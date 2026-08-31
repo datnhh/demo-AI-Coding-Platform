@@ -21,3 +21,15 @@ def slugify(value: str) -> str:
     ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
 
     return re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")
+
+
+def title_case(value: str) -> str:
+    """Viết hoa chữ cái đầu mỗi từ, các chữ còn lại viết thường."""
+    if value is None:
+        raise ValueError("value khong duoc None")
+
+    parts = re.split(r"(\s+)", value)
+    return "".join(
+        part if part.isspace() else part[:1].upper() + part[1:].lower()
+        for part in parts
+    )
