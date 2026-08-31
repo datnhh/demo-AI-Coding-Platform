@@ -1,3 +1,3 @@
-from .strings import reverse, slugify
+from .strings import reverse, slugify, squeeze_spaces
 
-__all__ = ["reverse", "slugify"]
+__all__ = ["reverse", "slugify", "squeeze_spaces"]

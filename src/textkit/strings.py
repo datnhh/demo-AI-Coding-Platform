@@ -21,3 +21,11 @@ def slugify(value: str) -> str:
     ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
 
     return re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")
+
+
+def squeeze_spaces(value: str) -> str:
+    """Gộp mọi chuỗi khoảng trắng liên tiếp thành một dấu cách, cắt hai đầu."""
+    if value is None:
+        raise ValueError("value khong duoc None")
+
+    return re.sub(r"\s+", " ", value).strip()
