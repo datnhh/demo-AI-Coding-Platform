@@ -21,3 +21,13 @@ def slugify(value: str) -> str:
     ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
 
     return re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")
+
+
+def repeat(value: str, times: int) -> str:
+    """Lặp lại chuỗi value times lần."""
+    if value is None:
+        raise ValueError("value khong duoc None")
+    if times < 0:
+        raise ValueError("times khong duoc nho hon 0")
+
+    return value * times
