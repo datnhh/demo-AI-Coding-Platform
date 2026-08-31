@@ -18,4 +18,16 @@ public static class StringUtils
 
         return new string(characters);
     }
+
+    /// <summary>Kiểm tra một chuỗi có đối xứng hay không, bỏ qua hoa thường và khoảng trắng.</summary>
+    public static bool IsPalindrome(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        string normalized = new string(value.Where(c => !char.IsWhiteSpace(c)).ToArray()).ToLowerInvariant();
+        char[] reversed = normalized.ToCharArray();
+        Array.Reverse(reversed);
+
+        return normalized == new string(reversed);
+    }
 }
