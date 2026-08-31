@@ -21,3 +21,16 @@ def slugify(value: str) -> str:
     ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
 
     return re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")
+
+
+def strip_prefix(value: str, prefix: str) -> str:
+    """Cắt tiền tố khỏi chuỗi nếu chuỗi bắt đầu bằng tiền tố đó."""
+    if value is None:
+        raise ValueError("value khong duoc None")
+    if prefix is None:
+        raise ValueError("prefix khong duoc None")
+
+    if value.startswith(prefix):
+        return value[len(prefix):]
+
+    return value
