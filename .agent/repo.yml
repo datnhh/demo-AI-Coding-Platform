@@ -5,11 +5,17 @@ runtime:
   workdir: /workspace
 
 commands:
-  setup: pip install --no-cache-dir -r requirements.txt
-  build: python -m compileall -q src
+  # Cài vào /workspace/.pydeps chứ không vào rootfs. Mỗi giai đoạn verify chạy
+  # trong một container RIÊNG, nên thứ cài vào /usr/local/bin ở bước setup sẽ
+  # biến mất trước bước test — triệu chứng là "pytest: not found" ngay sau một
+  # dòng "Successfully installed pytest". Workspace thì được mount xuyên suốt.
+  setup: pip install --no-cache-dir --target /workspace/.pydeps -r requirements.txt
+  build: PYTHONPATH=/workspace/.pydeps python -m compileall -q src
   # `--junitxml` là bắt buộc: `pytest -q` chỉ in ra màn hình, bước kiểm chứng
   # của platform sẽ không tìm thấy file nào để đọc.
-  test: pytest -q --junitxml=/workspace/test-results/results.xml
+  # `python -m pytest` thay vì `pytest`: gói nằm ở .pydeps nên console script
+  # không có trên PATH.
+  test: PYTHONPATH=/workspace/.pydeps python -m pytest -q --junitxml=/workspace/test-results/results.xml
 
 limits:
   setup_timeout_seconds: 900
