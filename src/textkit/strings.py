@@ -21,3 +21,16 @@ def slugify(value: str) -> str:
     ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
 
     return re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")
+
+
+def truncate(value: str, limit: int) -> str:
+    """Cắt chuỗi còn tối đa `limit` ký tự, thêm "..." nếu bị cắt bớt."""
+    if value is None:
+        raise ValueError("value khong duoc None")
+    if limit < 1:
+        raise ValueError("limit phai lon hon hoac bang 1")
+
+    if len(value) <= limit:
+        return value
+
+    return value[:limit] + "..."
