@@ -21,3 +21,11 @@ def slugify(value: str) -> str:
     ascii_only = normalized.encode("ascii", "ignore").decode("ascii")
 
     return re.sub(r"[^a-z0-9]+", "-", ascii_only.lower()).strip("-")
+
+
+def visible_length(value: str) -> int:
+    """Đếm số ký tự không phải khoảng trắng trong chuỗi."""
+    if value is None:
+        raise ValueError("value khong duoc None")
+
+    return sum(1 for ch in value if not ch.isspace())
