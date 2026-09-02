@@ -30,4 +30,40 @@ public static class StringUtils
 
         return normalized == new string(reversed);
     }
+
+    /// <summary>Chuyển tiếng Việt có dấu về không dấu.</summary>
+    public static string RemoveDiacritics(string value)
+    {
+        ArgumentNullException.ThrowIfNull(value);
+
+        if (string.IsNullOrEmpty(value))
+        {
+            return value;
+        }
+
+        string normalizedString = value.Normalize(System.Text.NormalizationForm.FormD);
+        var stringBuilder = new System.Text.StringBuilder(normalizedString.Length);
+
+        foreach (char c in normalizedString)
+        {
+            var unicodeCategory = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c);
+            if (unicodeCategory != System.Globalization.UnicodeCategory.NonSpacingMark)
+            {
+                if (c is 'đ')
+                {
+                    stringBuilder.Append('d');
+                }
+                else if (c is 'Đ')
+                {
+                    stringBuilder.Append('D');
+                }
+                else
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+        }
+
+        return stringBuilder.ToString().Normalize(System.Text.NormalizationForm.FormC);
+    }
 }
